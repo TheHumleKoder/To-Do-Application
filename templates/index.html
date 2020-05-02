@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ToDo App in Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+	<div class="container">
+		<div class="input">
+			<h1>To-Do List</h1>
+			<form action="/task" method="post">
+				<p>
+					<input type="text" name="content">
+				</p>
+			    <input type="submit" value="Add task">
+			</form>
+		</div>
+		<div class="content">
+			
+			<table class="todo-data">
+				<tr>
+					<th>Task Id</th>
+					<th>Task Details</th>
+					<th>Complete</th>
+					<th>Delete</th>
+					<th>Update</th>
+				</tr>
+
+			{% for task in tasks %}
+
+				<tr>
+					<td>{{ task.id }}</td>
+					<td>{% if task.done %}
+						<em></em><span style="color:red"> {% endif %}{{ task.content }} {% if task.done %} (Completed) </span></em>{% endif %}
+					</td>
+					<td>
+						<a href="/done/{{ task.id }}"><img src="{{url_for('static', filename='images/complete.png')}}" align="middle" alt="Mark as Done" /></a>
+					</td>
+					<td>
+						<a href="/delete/{{ task.id }}"><img src="{{url_for('static', filename='images/delete.png')}}" align="middle" alt="Mark as Done" /></a>
+					</td>
+					<td>
+						<form action="/update/{{ task.id }}" method="post">
+							<p><input type="text" name="content" id="update-text"></p>
+							<input type="submit" value="Update" id="update-submit">
+						</form>
+					</td>
+				</tr>
+
+			{% endfor %}
+
+			</table>
+		</div>
+	</div>
+</body>
+</html>
